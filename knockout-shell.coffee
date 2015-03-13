@@ -1,7 +1,7 @@
 
 _ = require "underscore"
 
-global.ko = ko = require "knockout"
+window.ko = ko = require "knockout"
 # requires ko at global scope
 require "knockout-classBindingProvider"
 ClassBindingProvider = ko.classBindingProvider

@@ -5,7 +5,7 @@ var ClassBindingProvider, Templater, ko, oldload, provider, templater, _,
 
 _ = require("underscore");
 
-global.ko = ko = require("knockout");
+window.ko = ko = require("knockout");
 
 require("knockout-classBindingProvider");
 
@@ -111,7 +111,7 @@ var ClassBindingProvider, Templater, ko, oldload, provider, templater, _,
 
 _ = require("underscore");
 
-global.ko = ko = require("knockout");
+window.ko = ko = require("knockout");
 
 require("knockout-classBindingProvider");
 
