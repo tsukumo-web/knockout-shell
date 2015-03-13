@@ -1,0 +1,24 @@
+{
+  "name": "knockout-shell",
+  "version": "1.0.0",
+  "homepage": "https://github.com/tsukumo-web/knockout-shell",
+  "authors": [
+    "tsukumo <tsukumo.code@gmail.com>"
+  ],
+  "description": "convenience shell for knockout",
+  "main": "knockout-shell.min.js",
+  "keywords": [
+    "knockout",
+    "shell"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "*",
+    "!knockout-shell*"
+  ],
+  "dependencies": {
+    "knockout": "~3.3.0",
+    "knockout-classBindingProvider": "~0.5.0",
+    "underscore": "~1.8.2"
+  }
+}
