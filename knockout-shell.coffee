@@ -55,7 +55,7 @@ ko.root = ko.observable()
 
 # initialize knockout
 oldload = window.onload
-window.onload ( ) ->
+window.onload = ( ) ->
     oldload?()
 
     document.body.appendChild document.createComment " ko class: shell "
