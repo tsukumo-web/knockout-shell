@@ -9,7 +9,7 @@ ClassBindingProvider = ko.classBindingProvider
 delete ko.classBindingProvider
 
 # polvo:if MODE=debug
-Object.defineProperty Element::, "ko_data", get: ( ) -> ko.data_for this
+Object.defineProperty Element::, "ko_data", get: ( ) -> ko.dataFor this
 # polvo:fi
 
 # setup bindings
