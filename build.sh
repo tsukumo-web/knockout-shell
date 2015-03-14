@@ -1,5 +1,7 @@
 #!/bin/bash
 
+rm knockout-shell.js knockout-shell.min.js
+
 coffee -bmc knockout-shell.coffee
 yuicompressor knockout-shell.js -o knockout-shell.min.js
 cat knockout-shell.js | grep -v //# >> knockout-shell.js

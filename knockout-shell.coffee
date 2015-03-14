@@ -18,11 +18,14 @@ provider = ko.bindingProvider.instance =
         # attribute: "data-class"
         # virtualAttribute: "class"
         # bindingRouter: null # (className, bindings)
-        # fallback: false
+        fallback: true
         log: console.warn.bind console
 
 # setup templates
-ko.setTemplateEngine templater = new class Templater extends ko.templateEngine
+ko.setTemplateEngine templater = new class Templater extends ko.nativeTemplateEngine
+
+    constructor: ( ) ->
+        @allowTemplateRewriting = false
 
     templates: { }
     template_data: { }
@@ -35,7 +38,7 @@ ko.setTemplateEngine templater = new class Templater extends ko.templateEngine
         text: ( val ) =>
             return if arguments.length then val else @templates[id]
 
-    renderTemplateSource: ( source, ctx, options ) ->
+    renderTemplateSource: ( source, ctx, options, doc ) ->
             # Precompile and cache the templates for efficiency
             prec = source.data "precompiled"
             if not prec?
@@ -43,7 +46,7 @@ ko.setTemplateEngine templater = new class Templater extends ko.templateEngine
                 source.data "precompiled", prec
 
             # run template and parse output into array of DOM elements
-            ko.utils.parseHtmlFragment prec(ctx).replace /\s+/g, " "
+            ko.utils.parseHtmlFragment prec(ctx).replace(/\s+/g, " "), doc
 
     createJavaScriptEvaluatorBlock: ( script ) -> "<%=#{script}%>"
 
