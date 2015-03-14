@@ -1,12 +1,12 @@
 {
   "name": "knockout-shell",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "homepage": "https://github.com/tsukumo-web/knockout-shell",
   "authors": [
     "tsukumo <tsukumo.code@gmail.com>"
   ],
   "description": "convenience shell for knockout",
-  "main": "knockout-shell.min.js",
+  "main": "knockout-shell.coffee",
   "keywords": [
     "knockout",
     "shell"
@@ -14,7 +14,7 @@
   "license": "MIT",
   "ignore": [
     "*",
-    "!knockout-shell*"
+    "!knockout-shell.coffee"
   ],
   "dependencies": {
     "knockout": "~3.3.0",
