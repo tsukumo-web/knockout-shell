@@ -4,7 +4,7 @@ ko = require "knockout"
 
 settings =
     attribute: "data-class"
-    virtual: "ko"
+    virtual: "class"
     underscore: true
 
 # polvo:if MODE=debug
@@ -19,7 +19,7 @@ if ko.version >= "3.0.0"
         context = ko.contextFor dummyDiv
 
         isMinified = !ko.storedBindingContextForNode
-        subscribable = if isMinified then "A" else "_subscribable"
+        subscribableName = if isMinified then "A" else "_subscribable"
         addNodeName = if isMinified then "wb" else "_addNode"
         dummySubscribable = ->
         dummySubscribable[addNodeName] = dummySubscribable
@@ -40,9 +40,9 @@ provider = ko.bindingProvider.instance = new class ClassBindingProvider
             result = node.getAttribute settings.attribute
         else if 8 is node.nodeType
             value = String(node.nodeValue or node.text)
-            index = value.indexOf settings.virtualAttribute
+            index = value.indexOf settings.virtual
             if index > -1
-                result = value.substring index + settings.virtaulAttribute.length
+                result = value.substring index + settings.virtual.length + 1
             else result = ""
         return result
 
@@ -64,36 +64,34 @@ provider = ko.bindingProvider.instance = new class ClassBindingProvider
         ( node, ctx ) ->
             result = { }
             classes = get_attribute node
-
             if classes
                 for css in classes.split(" ").filter Boolean
                     accessor = @bindingRouter css, @bindings
                     if accessor
+                        binding = accessor
                         if typeof accessor is "function"
-                            accessor = accessor.call ctx.$data, ctx, classes
+                            binding = binding.call ctx.$data, ctx, classes
                         if getAccessors
-                            accessor = object_map binding, ( v ) -> -> v
+                            binding = object_map binding, ( v ) -> -> v
                         ko.utils.extend result, binding
                     # polvo:if MODE=debug
                     else
-                        console.warn "no binding provided for #{css} in #{node}"
+                        console.warn "no binding provided for #{css}"
                     # polvo:fi
             else
                 accessor = if getAccessors then "getBindingAccessors" else "getBindings"
                 result = @existingProvider[accessor] node, ctx
 
             # polvo:if MODE=debug
-            for name of result
-                if(result.hasOwnProperty(name) and
-                    not (name in ["_ko_property_writers",
+            for own name of result
+                if(not (name in ["_ko_property_writers",
                     "valueUpdate", "optionsText"]) and
-                    node ko.bindingHandlers[name])
+                    not ko.bindingHandlers[name])
                         if binding
                             console.warn "unknown handler #{name}
-                                in #{node} defined in #{classes}
-                                    as #{binding}"
+                                defined in #{classes} as #{binding}"
                         else
-                            console.warn "unknown handler #{name} in #{node}"
+                            console.warn "unknown handler #{name}"
             # polvo:fi
             return result
 
