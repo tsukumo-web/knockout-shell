@@ -76,7 +76,7 @@ provider = ko.bindingProvider.instance = new class ClassBindingProvider
                         ko.utils.extend result, binding
                     # polvo:if MODE=debug
                     else
-                        console.warn "no binding provided for #{css}"
+                        console.warn "ko_shell: no binding provided for #{css}"
                     # polvo:fi
             else
                 accessor = if getAccessors then "getBindingAccessors" else "getBindings"
@@ -88,10 +88,10 @@ provider = ko.bindingProvider.instance = new class ClassBindingProvider
                     "valueUpdate", "optionsText"]) and
                     not ko.bindingHandlers[name])
                         if binding
-                            console.warn "unknown handler #{name}
+                            console.warn "ko_shell: unknown handler #{name}
                                 defined in #{classes} as #{binding}"
                         else
-                            console.warn "unknown handler #{name}"
+                            console.warn "ko_shell: unknown handler #{name}"
             # polvo:fi
             return result
 
