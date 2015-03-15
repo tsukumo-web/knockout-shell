@@ -1,6 +1,6 @@
 
 _ = require "underscore"
-ko = require "knockout"
+ko = require "knockout-deferred-updates/knockout-deferred-updates"
 
 settings =
     attribute: "data-class"
@@ -9,6 +9,8 @@ settings =
 
 # polvo:if MODE=debug
 Object.defineProperty Element::, "ko_data", get: ( ) -> ko.dataFor this
+# polvo:else
+delete window.ko
 # polvo:fi
 
 # ko context change to observable
@@ -116,16 +118,16 @@ ko.setTemplateEngine templater = new class Templater extends ko.nativeTemplateEn
             return if arguments.length then val else @templates[id]
 
     renderTemplateSource: ( source, ctx, options, doc ) ->
-            unless settings.underscore
-                return super
-            # Precompile and cache the templates for efficiency
-            prec = source.data "precompiled"
-            if not prec?
-                prec = _.template "<%with($data){%>#{source.text()}<%}%>"
-                source.data "precompiled", prec
+        unless settings.underscore
+            return super
+        # Precompile and cache the templates for efficiency
+        prec = source.data "precompiled"
+        if not prec?
+            prec = _.template "<%with($data){%>#{source.text()}<%}%>"
+            source.data "precompiled", prec
 
-            # run template and parse output into array of DOM elements
-            ko.utils.parseHtmlFragment prec(ctx).replace(/\s+/g, " "), doc
+        # run template and parse output into array of DOM elements
+        ko.utils.parseHtmlFragment prec(ctx).replace(/\s+/g, " "), doc
 
     createJavaScriptEvaluatorBlock: ( script ) ->
         unless settings.underscore
