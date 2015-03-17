@@ -9,8 +9,7 @@ settings =
 
 # polvo:if MODE=debug
 Object.defineProperty Element::, "ko_data", get: ( ) -> ko.dataFor this
-# polvo:else
-delete window.ko
+window.ko = ko
 # polvo:fi
 
 # ko context change to observable
@@ -115,7 +114,11 @@ ko.setTemplateEngine templater = new class Templater extends ko.nativeTemplateEn
             return @template_data[id][key] if arguments.length is 1
             @template_data[id][key] = val
         text: ( val ) =>
-            return if arguments.length then val else @templates[id]
+            if arguments.length
+                return val
+            if @templates[id] instanceof Function
+                return @templates[id]()
+            return @templates[id]
 
     renderTemplateSource: ( source, ctx, options, doc ) ->
         unless settings.underscore
@@ -156,3 +159,4 @@ window.onload = ( ) ->
 
 # export knockout object
 module.exports = ko
+
